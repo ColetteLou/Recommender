@@ -1,0 +1,60 @@
+
+{% extends 'Movies/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class = "instructions">
+  Step 1 : First we would like to build a profile for you. Please scroll through the below
+  movies and rate any of the ones you have seen. If you haven't seen any of the movies listed
+  or you would like to rate even more to build a better profile click on the "rate more" button
+  at the bottom of the page. If you are done ratings movies please select
+  the "Done rating" button also at the bottom of the page. We recommend rating movies until you
+  have found a least 3-4 movies you have either really liked or are indifferent to.
+  If you do not rate any movies you will not be able to proceed.
+</div>
+<form action="/Movies/submit_starter/" method="post">
+  <input type="hidden" id="userID" name="userID" value="{{request.session.username}}">
+   {% csrf_token %}
+    <div class="row">
+      {% for movie in movies %}
+      {% if  forloop.counter <= 13 %}
+      <div class="column">
+    <div class="card">
+      <img src="{{ movie.poster }}" alt="">
+      <div class="movieTitle">{{ movie.title}}</div>
+      <div class="btn-group" name = moviebuttons>
+        <label>
+        <input type="radio" name="{{ forloop.counter }}" id="{{movie.movieId}}3" value="{{movie.movieId}}3">
+        <img for="{{movie.movieId}}3"src= "{% static 'Movies/up.png' %}">
+        </label>
+        <label>
+        <input type="radio" name="{{ forloop.counter }}"id="{{movie.movieId}}2" value="{{movie.movieId}}2">
+        <img for="{{movie.movieId}}2" src= "{% static 'Movies/cross.png' %}">
+        </label>
+        <label>
+        <input type="radio" name="{{ forloop.counter }}"id="{{movie.movieId}}1" value="{{movie.movieId}}1">
+        <img for="{{movie.movieId}}1" src= "{% static 'Movies/down.png' %}">
+        </label>
+        <label>
+        <input type="radio" name="{{ forloop.counter }}"id="{{movie.movieId}}4" value="{{movie.movieId}}4" checked="checked">
+        </label>
+      </div>
+
+    </div>
+  </div>
+      {% if forloop.counter|divisibleby:4 %}
+    </div>
+    <div class="row">
+      <div></div>
+      {% endif %}
+      {% endif %}
+      {% endfor %}
+    </div>
+
+  <div class= "startsubmit">
+      <input type="submit" class="button"value="I'm done rating" name="done">
+      <input type="submit" class="button"value="Rate some more" name="rate more"formaction="/Movies/rate_more/">
+  </div>
+</form>
+<div class="footer"></div>
+{% endblock content %}

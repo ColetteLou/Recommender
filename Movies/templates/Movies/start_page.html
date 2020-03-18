@@ -1,0 +1,46 @@
+{% extends 'Movies/base.html' %}
+{% block content %}
+<body>
+  <div class="row">
+    <div class="startcol1" >
+      <div class ="information">
+        <div style="font-family: verdana;font-size: 20px;color:white">Welcome!</div><br>
+        This site has been designed as a part of my final year (hopefully) as a computer science student.
+        The aim of this project is to analyse three recommender systems using different types of machine learning algorithm.
+        <br>
+        There are 3 steps to complete :<br><br>
+        Step 1 :<br>
+        Here on this page we ask you for some information about yourself.
+        This information will be used to determine if age or how often a person watches movies
+        has any effect on which recommender is more suited to them.
+        <br><br>
+        Step 2 :<br>
+        You will be presented with a list of movies, we ask that you rate any of the movies you have seen
+        in this list so we can get a sense of the types of movies you enjoy.
+        <br><br>
+        Step 3 :<br>
+        We will present you with recommendations from each of the algorithms. We will show you the first round of recommendations
+        from each algorithm on separate pages and ask you to rate each movie and let us know if you have watched it.
+        Then we will repeat this cycle for a second round. (so we can see how much the algorithms learn).
+        3 x pages of recommendation for 2 rounds. 6 pages in total.
+        <br><br>
+        Step 4 :  <br>
+        We thank you profusely and present to you a lovely graph that shows you which genres of movie you tend to favour
+        <br>
+        </div>
+    </div>
+    <div class="startcol2" >
+    <form class="" action="" method="POST">
+      {% csrf_token %}
+      <dl class="formclass">
+        <dt class="radbutton">> What age bracket do you land in?<dt>
+       <dd id="age" class="radbutton">{{ form.age }}</dd>
+       <dt class="radbutton">> How many times a week do you watch movies?<dt>
+       <dd id="watchf" class="radbutton">{{ form.movie_watching_freq }}</dd>
+      </dl>
+      <input type="Submit" class=subbutton value="Get Started"/>
+      </form>
+    </div>
+    </div>
+</body>
+{% endblock content %}

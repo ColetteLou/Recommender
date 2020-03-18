@@ -1,0 +1,65 @@
+
+{% extends 'Movies/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class = "instructions">
+  <div style="font-family: verdana;font-size: 30px;"> Algorithm 2</div>
+  <br>Step 3 continued : Below we have provided recommendations for you provided by algorithm number 2.
+  Please rate each of these recommendations and let us know if you have seen the movie or not.
+  We will ask you to rate the recommendations from each algorithm twice to see how much they
+  learn along the way
+  </div>
+<form action="/Movies/submit_recommended_collab/" method="post">
+  <input type="hidden" id="userID" name="userID" value="{{request.session.username}}">
+   {% csrf_token %}
+    <div class="row">
+      {% for movie in movies %}
+      {% if  forloop.counter <= 13 %}
+      <div class="column">
+    <div class="card">
+      <img src="{{ movie.poster }}" alt="">
+      <div class="movieTitle">{{ movie.title}}</div>
+      <div class="btn-group" name = moviebuttons>
+        <label>
+        <input type="radio" name="{{ forloop.counter }}" id="{{movie.movieId}}3" value="{{movie.movieId}}3">
+        <img for="{{movie.movieId}}3"src= "{% static 'Movies/up.png' %}">
+        </label>
+        <label>
+        <input type="radio" name="{{ forloop.counter }}"id="{{movie.movieId}}2" value="{{movie.movieId}}2">
+        <img for="{{movie.movieId}}2" src= "{% static 'Movies/cross.png' %}">
+        </label>
+        <label>
+        <input type="radio" name="{{ forloop.counter }}"id="{{movie.movieId}}1" value="{{movie.movieId}}1">
+        <img for="{{movie.movieId}}1" src= "{% static 'Movies/down.png' %}">
+        </label>
+        <label>
+        <input type="radio" name="{{ forloop.counter }}"id="{{movie.movieId}}4" value="{{movie.movieId}}4" checked="checked">
+        </label>
+      </div>
+      <div class="btn-group-1" name = watched>
+
+        <input type="radio" class="watched_buttons" name="{{ forloop.counter }}1" id="{{movie.movieId}}w" value="{{movie.movieId}}w"required>
+        <label for="{{movie.movieId}}w">Seen it</label>
+
+        <input type="radio" class="watched_buttons" name="{{ forloop.counter }}1"id="{{movie.movieId}}n" value="{{movie.movieId}}n"required>
+        <label for="{{movie.movieId}}n">Not Seen</label>
+
+      </div>
+
+    </div>
+  </div>
+      {% if forloop.counter|divisibleby:4 %}
+    </div>
+    <div class="row">
+      <div></div>
+      {% endif %}
+      {% endif %}
+      {% endfor %}
+    </div>
+    <div class= "startsubmit">
+      <input type="submit" class="button" value="Next" name="recsub">
+    </div>
+</form>
+<div class="footer"></div>
+{% endblock content %}

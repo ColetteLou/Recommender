@@ -1,0 +1,108 @@
+{% extends 'Movies/base.html' %}
+
+<script>
+
+{% block jquery %}
+
+  var labels =[]
+  var count = []
+
+  $.ajax({
+      method:"GET",
+      url:'/Movies/get_data/',
+      success: function(data){
+      labels = data.labels
+      count = data.count
+      setChart()
+
+    },
+    error: function(error_data){
+      console.log("error")
+      console.log(error_data)
+    }
+
+})
+
+function setChart()
+{
+  var ctx = document.getElementById('myRadarChart').getContext('2d');
+  var myRadarChart = new Chart(ctx, {
+    type: 'doughnut',
+    data: {
+    labels: labels,
+    datasets: [{
+        label:"Genres",
+        data: count,
+        backgroundColor: [
+               'rgba(105,105,105,1)',
+               'rgba(0, 191, 255  ,1)',
+               'rgba(211, 211, 211 ,1)',
+               'rgba(46, 139, 87 ,1)',
+               'rgba(65, 105, 225  ,1)',
+               'rgba(128, 128, 0,1)',
+               'rgba(178, 34, 34 ,1)',
+               'rgba(255, 255, 0,1)',
+               'rgba(0, 0, 139 ,1)',
+               'rgba(0, 255, 255,1)',
+               'rgba(255, 0, 0 ,1)',
+               'rgba(255, 165, 0,1)',
+               'rgba(124, 252, 0 ,1)',
+               'rgba(0, 250, 154  ,1)',
+               'rgba(0, 0, 255,1)',
+               'rgba(218, 112, 214  ,1)',
+               'rgba(240, 230, 140  ,1)',
+               'rgba(255, 20, 147  ,1)',
+               'rgba(255, 160, 122,1)',
+               'rgba(255, 0, 255  ,1)',
+           ],
+           borderColor: [
+                  'rgba(105,105,105,1)',
+                  'rgba(0, 191, 255  ,1)',
+                  'rgba(211, 211, 211 ,1)',
+                  'rgba(46, 139, 87 ,1)',
+                  'rgba(65, 105, 225  ,1)',
+                  'rgba(128, 128, 0,1)',
+                  'rgba(178, 34, 34 ,1)',
+                  'rgba(255, 255, 0,1)',
+                  'rgba(0, 0, 139 ,1)',
+                  'rgba(0, 255, 255,1)',
+                  'rgba(255, 0, 0 ,1)',
+                  'rgba(255, 165, 0,1)',
+                  'rgba(124, 252, 0 ,1)',
+                  'rgba(0, 250, 154  ,1)',
+                  'rgba(0, 0, 255,1)',
+                  'rgba(218, 112, 214  ,1)',
+                  'rgba(240, 230, 140  ,1)',
+                  'rgba(255, 20, 147  ,1)',
+                  'rgba(255, 160, 122,1)',
+                  'rgba(255, 0, 255  ,1)',
+              ],
+           borderWidth: 1
+    }]
+},
+
+});
+
+}
+{% endblock %}
+</script>
+
+{% block content %}
+
+  <div class = "instructions">
+    Step 4: You did it. Thank you so much for all your help. If you would like to try the
+      recommender again please feel free to do so although your previous data will not be saved.
+      We do not save any personal data or persist any user data.
+      Thank you so much for all your time and patience.
+      Below is a small graph that shows how may of each genre of movie you liked during this process.
+      Note: some movies fall into multiple genre categories.
+      <br><br> <br><br>
+      <div style="background-color: black; height:700px; align:center">
+        <canvas id="myRadarChart" ></canvas>
+      </div>
+    </div>
+
+
+  <div class="footer"></div>
+
+{% endblock content %}
